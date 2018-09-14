@@ -148,7 +148,7 @@ a {
 
 * {
     max-height: 100000px;
-    touch-action: pan-x;
+    touch-action:manipulation;
     font-size: inherit;
     /*  -webkit-appearance: none;
   -moz-appearance: none;

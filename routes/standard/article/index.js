@@ -10,7 +10,8 @@ router.post('*', function (req, res, next) {
 
 router.post('/data', function (req, res, next) {
   const t = req.body;
-  var sql = 'SELECT `id`,`title`,`introduce`,`updatetime`,`type`  FROM `as_basic` ORDER BY  `updatetime` DESC ';
+  // console.log(tokeninfo.id)
+  var sql = 'SELECT `id`,`title`,`introduce`,`updatetime`,`type`  FROM `as_basic`  WHERE id = ' + tokeninfo.id + ' ORDER BY  `updatetime` DESC ';
   if (t.pagenumber && t.pagenumber > 0) {
     var LIMIT = `LIMIT ${t.pagenumber*10},${t.pagenumber*10+10} `
   } else {
@@ -18,11 +19,17 @@ router.post('/data', function (req, res, next) {
   }
   sql += LIMIT;
   MYSQL.ROW(sql).then(function (data) {
-    data.forEach(function (x, index, array) {
-      x.updatetime = MYSQL.DATEF(x.updatetime, 'yyyy-MM-dd hh:mm:ss')
-    })
+    console.log(11111)
+    if (data) {
+      data.forEach(function (x, index, array) {
+        x.updatetime = MYSQL.DATEF(x.updatetime, 'yyyy-MM-dd hh:mm:ss')
+      })
+    }
+
     MYSQL.SEND_RES(res, '数据获取成功!', data)
   }).catch(function (err) {
+    console.log(22222)
+
     MYSQL.SEND_RES(res, err, null, false)
   })
 })

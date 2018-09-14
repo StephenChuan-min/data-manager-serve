@@ -36,7 +36,7 @@ router.post('/', function (req, res, next) {
       throw 'err'
     }
   }).then(val => {
-    tokeninfo = val
+    tokeninfo = JSON.parse(val)
     next()
   }).catch(err => {
     // access token过期
