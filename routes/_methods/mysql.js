@@ -55,15 +55,10 @@ var course_res = (connection, sql, params) => {
           resolve(err);
         })
       }
-      for (let i in res[0]) {
-        // console.log(res[0][i])
-        resolve({
-          con: connection,
-          res: res[0][i] || null
-        });
-        return;
-      }
-      resolve(connection);
+      resolve({
+        con: connection,
+        res: res || null
+      });
     });
   })
 }

@@ -7,7 +7,7 @@ var redisMethod = require('../redis/method')
 router.post('*', function (req, res, next) {
   next()
 })
-router.post('/in', async function (req, res, next) {
+router.post('/in', function (req, res, next) {
   const t = req.body;
   if (!t.name || !t.pwd) {
     MYSQL.SEND_RES(res, 'The username or password can not be empty', null, false)
@@ -54,7 +54,7 @@ router.post('/in', async function (req, res, next) {
 })
 
 
-router.post('/reg', async function (req, res, next) {
+router.post('/reg', function (req, res, next) {
   const t = req.body;
   if (!t.name || !t.pwd) {
     MYSQL.SEND_RES(res, 'The username or password can not be empty', null, false)
