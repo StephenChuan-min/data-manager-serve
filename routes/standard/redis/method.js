@@ -1,17 +1,16 @@
-var redis = require("redis");
+const redis = require("redis");
 
-var set = (key, value, time) => {
-  let client = redis.createClient();
+const set = (key, value, time) => {
+  const client = redis.createClient();
   client.set(key, value);
-  time = time ? time : 3600 * 24;
-  client.expire(key, time);
+  client.expire(key, time || 3600 * 24);
   client.quit();
 };
 
-var get = (key) => {
-  return new Promise(function (resolve, reject) {
-    let client = redis.createClient();
-    client.get(key, function (err, response) {
+const get = (key) =>
+  new Promise((resolve, reject) => {
+    const client = redis.createClient();
+    client.get(key, (err, response) => {
       client.quit();
       if (err) {
         reject(err);
@@ -20,19 +19,18 @@ var get = (key) => {
       resolve(response);
     });
   });
-};
 
-var del = (key) => {
-  let client = redis.createClient();
+const del = (key) => {
+  const client = redis.createClient();
   client.del(key);
   client.quit();
 };
 
-var keys = function (key, type) {
-  return new Promise(function (resolve, reject) {
-    let client = redis.createClient();
-    key = type ? "*#" + key : key + "#*";
-    client.keys(key, function (err, response) {
+const keys = function (key, type) {
+  return new Promise((resolve, reject) => {
+    const client = redis.createClient();
+    const _key = type ? `*#${key}` : `${key}#*`;
+    client.keys(_key, (err, response) => {
       client.quit();
       if (err) {
         reject(err);

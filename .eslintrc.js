@@ -4,12 +4,14 @@ module.exports = {
     commonjs: true,
     es2021: true,
   },
-  extends: ["eslint:recommended", "prettier"],
+  extends: ["airbnb-base", "eslint:recommended", "prettier"],
   parserOptions: {
     ecmaVersion: 12,
   },
   plugins: ["prettier"],
   rules: {
     "prettier/prettier": "error",
+    "no-underscore-dangle": 0,
+    "func-names": ["error", "as-needed"],
   },
 };

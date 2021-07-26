@@ -1,7 +1,6 @@
-"use strict";
 const hostname = "";
 const port = 3000;
-var mysqlConfig = {
+const mysqlConfig = {
   connectionLimit: 50,
   //   host: '192.168.1.248',
   //   user: 'root',
@@ -16,7 +15,7 @@ var mysqlConfig = {
   // host: 'rm-wz90k0c907765yk00zo.mysql.rds.aliyuncs.com',
   // user: 'root',
   // password: 'Nemoyr69',
-  // database: 'async',+
+  // database: 'async',+k
 
   // history
   // host: 'localhost',
@@ -31,7 +30,7 @@ var mysqlConfig = {
   database: "temp_user",
 
   typeCast: true, // 是否把结果值转换为原生的 javascript 类型
-  multipleStatements: true, //是否允许执行多条sql语句
+  multipleStatements: true, // 是否允许执行多条sql语句
   waitForConnections: true,
 };
 
