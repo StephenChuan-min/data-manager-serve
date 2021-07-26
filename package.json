@@ -1,12 +1,14 @@
 {
-  "name": "apiserver",
+  "name": "node-server",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "test": "node-dev ./bin/www",
-    "start": "pm2 start ./bin/www --name nServer --watch"
+    "start": "pm2 start ./bin/www --name nServer --watch",
+    "api": "apidoc -i routes/ -o public/api-doc/"
   },
   "dependencies": {
+    "apidoc": "^0.28.1",
     "body-parser": "~1.18.3",
     "cookie-parser": "~1.4.3",
     "crypto": "^1.0.1",
@@ -16,11 +18,21 @@
     "jsencrypt": "^3.0.0-rc.1",
     "morgan": "~1.9.0",
     "mysql": "^2.16.0",
-    "redis": "^2.8.0",
+    "redis": "^3.1.2",
     "serve-favicon": "~2.5.0",
     "ws": "^6.0.0"
   },
   "devDependencies": {
-    "node-dev": "^3.1.3"
+    "eslint": "^7.31.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "node-dev": "^3.1.3",
+    "prettier": "^2.3.2",
+    "prettier-eslint": "^12.0.0"
+  },
+  "apidoc": {
+    "title": "接口文档",
+    "version": "1.0.0"
   }
 }

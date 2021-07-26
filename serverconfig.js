@@ -1,5 +1,5 @@
-'use strict';
-const hostname = '';
+"use strict";
+const hostname = "";
 const port = 3000;
 var mysqlConfig = {
   connectionLimit: 50,
@@ -12,23 +12,31 @@ var mysqlConfig = {
   // user: 'root',
   // password: 'root123456ROOT&',
   // database: 'bingo',
-  // 
+  //
   // host: 'rm-wz90k0c907765yk00zo.mysql.rds.aliyuncs.com',
   // user: 'root',
   // password: 'Nemoyr69',
-  // database: 'async',
-  host: 'localhost',
-  user: 'root',
-  password: 'Nemoyr69@',
-  database: 'film',
+  // database: 'async',+
+
+  // history
+  // host: 'localhost',
+  // user: 'root',
+  // password: 'Nemoyr69@',
+  // database: 'film',
+
+  // company-localhost
+  host: "localhost",
+  user: "root",
+  password: "password",
+  database: "temp_user",
 
   typeCast: true, // 是否把结果值转换为原生的 javascript 类型
   multipleStatements: true, //是否允许执行多条sql语句
-  waitForConnections: true
+  waitForConnections: true,
 };
 
-module.exports ={
+module.exports = {
   HOSTNAME: hostname,
   PORT: port,
-  MYSQLCONFIG: mysqlConfig
-}
+  MYSQLCONFIG: mysqlConfig,
+};
