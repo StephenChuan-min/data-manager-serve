@@ -12,6 +12,7 @@ module.exports = {
   rules: {
     "prettier/prettier": "error",
     "no-underscore-dangle": 0,
+    "no-console": ["error"],
     "func-names": ["error", "as-needed"],
   },
 };

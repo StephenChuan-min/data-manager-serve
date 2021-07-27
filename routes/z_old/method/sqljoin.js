@@ -1,38 +1,43 @@
-var sqlJoin = (function() {
-  var whereResolve = function(type, whereSwitch) {
+const sqlJoin = (function () {
+  const whereResolve = function (type, whereSwitch) {
     if (whereSwitch.where) {
-      type += ' WHERE ';
+      type += " WHERE ";
     }
-    var keyAry = (whereSwitch && whereSwitch.whereProp) ? whereSwitch.whereProp : [];
+    const keyAry =
+      whereSwitch && whereSwitch.whereProp ? whereSwitch.whereProp : [];
     if (keyAry.length) {
-
       for (let i = 0; i < keyAry.length; i++) {
-        let c = keyAry[i];
-        if (typeof c == 'object') {
-          for (var key in c) {
-            if (key != 'operator') type += '`' + key + '`' + (c['operator'] ? c['operator'] : '=') + '' + "'" + c[key] + "'";
+        const c = keyAry[i];
+        if (typeof c === "object") {
+          for (const key in c) {
+            if (key != "operator")
+              type +=
+                `\`${key}\`${c.operator ? c.operator : "="}` + `'${c[key]}'`;
           }
         } else if (/(AND)?(OR)?/.test(c)) {
-          type += ' ' + c + ' ';
+          type += ` ${c} `;
         } else if (/(\()?(\))?/.test(c)) {
           type += c;
         }
       }
     }
-    var likeKeyArr = whereSwitch.likeProp ? Object.keys(whereSwitch.likeProp) : [];
+    const likeKeyArr = whereSwitch.likeProp
+      ? Object.keys(whereSwitch.likeProp)
+      : [];
     if (likeKeyArr.length) {
       if (likeKeyArr.length > 1) {
         for (let j = 0; j < likeKeyArr.length; j++) {
-          let cur = likeKeyArr[j];
+          const cur = likeKeyArr[j];
           if (j == likeKeyArr.length - 1) {
-            type += cur + ' LIKE ' + "'%" + whereSwitch.likeProp[cur] + "%'";
+            type += `${cur} LIKE ` + `'%${whereSwitch.likeProp[cur]}%'`;
           } else {
-            type += cur + ' LIKE ' + "'%" + whereSwitch.likeProp[cur] + "%'" + ' AND ';
+            type +=
+              `${cur} LIKE ` + `'%${whereSwitch.likeProp[cur]}%'` + ` AND `;
           }
         }
       } else {
-        for (let key in whereSwitch.likeProp) {
-          type += key + ' LIKE ' + "'%" + whereSwitch.likeProp[key] + "%'";
+        for (const key in whereSwitch.likeProp) {
+          type += `${key} LIKE ` + `'%${whereSwitch.likeProp[key]}%'`;
         }
       }
     }
@@ -44,134 +49,129 @@ var sqlJoin = (function() {
    * @param whereSwitch [,Object] config the WHERE sentence
    * @param limitSwitch [,Object] config the LIMIT sentence
    * @returns String the sql query string joined by sqlJoin function
-   **/
-  var sqlJoin = function(sqlType, tableName, whereSwitch, limitSwitch) {
-    var SELECT = '',
-      UPDATE = '',
-      DELETE = '',
-      INSERT = '';
+   * */
+  const sqlJoin = function (sqlType, tableName, whereSwitch, limitSwitch) {
+    let SELECT = "";
+    var UPDATE = "";
+    let DELETE = "";
+    var INSERT = "";
     switch (sqlType.type) {
-      case 'SELECT':
-        SELECT = 'SELECT ';
+      case "SELECT":
+        SELECT = "SELECT ";
         if (sqlType.distinct) {
-          SELECT += ' DISTINCT '
+          SELECT += " DISTINCT ";
         }
         sqlType.prop = sqlType.prop ? sqlType.prop : [];
         if (sqlType.prop && sqlType.prop.length) {
           for (let i = 0; i < sqlType.prop.length; i++) {
             var cur = sqlType.prop[i];
             if (i == sqlType.prop.length - 1) {
-              SELECT += '`' + cur + '`';
+              SELECT += `\`${cur}\``;
             } else {
-              SELECT += '`' + cur + '`,';
+              SELECT += `\`${cur}\`,`;
             }
           }
         } else {
-          SELECT += ' *'
+          SELECT += " *";
         }
-        SELECT += ' FROM ' + '`' + tableName + '`';
+        SELECT += `${" FROM " + "`"}${tableName}\``;
         if (whereSwitch) {
           SELECT = whereResolve(SELECT, whereSwitch);
         }
 
         var orderArr = sqlType.orderProp ? Object.keys(sqlType.orderProp) : [];
         if (orderArr.length) {
-          SELECT += ' ORDER BY ';
+          SELECT += " ORDER BY ";
           for (let m = 0; m < orderArr.length; m++) {
-            let c = orderArr[m];
+            const c = orderArr[m];
             if (m == orderArr.length - 1) {
               if (sqlType.orderProp[c]) {
-                SELECT += c + ' ASC'
+                SELECT += `${c} ASC`;
               } else {
-                SELECT += c + ' DESC'
+                SELECT += `${c} DESC`;
               }
+            } else if (sqlType.orderProp[c]) {
+              SELECT += `${c} ASC, `;
             } else {
-              if (sqlType.orderProp[c]) {
-                SELECT += c + ' ASC, '
-              } else {
-                SELECT += c + ' DESC, '
-              }
+              SELECT += `${c} DESC, `;
             }
           }
         }
 
         if (limitSwitch && limitSwitch.limit) {
-          SELECT += ' LIMIT ' + limitSwitch.num;
+          SELECT += ` LIMIT ${limitSwitch.num}`;
         }
 
         break;
-      case 'UPDATE':
-        UPDATE = 'UPDATE ';
-        UPDATE += tableName + ' SET ';
+      case "UPDATE":
+        UPDATE = "UPDATE ";
+        UPDATE += `${tableName} SET `;
         var updatekeys = Object.keys(sqlType.prop);
         for (let i = 0; i < updatekeys.length; i++) {
           var cur = updatekeys[i];
           // console.log(sqlType.prop[cur])
-          if (sqlType.prop[cur]&& typeof(sqlType.prop[cur])=='string') {
-            sqlType.prop[cur] = sqlType.prop[cur].replace(/'/g, "''")
+          if (sqlType.prop[cur] && typeof sqlType.prop[cur] === "string") {
+            sqlType.prop[cur] = sqlType.prop[cur].replace(/'/g, "''");
           }
           if (i == updatekeys.length - 1) {
-
-            UPDATE += '`' + cur + '` =' + "'" + sqlType.prop[cur] + "'";
+            UPDATE += `\`${cur}\` =` + `'${sqlType.prop[cur]}'`;
           } else {
-            UPDATE += '`' + cur + '` =' + "'" + sqlType.prop[cur] + "', ";
+            UPDATE += `\`${cur}\` =` + `'${sqlType.prop[cur]}', `;
           }
         }
         if (whereSwitch && whereSwitch.where) {
           UPDATE = whereResolve(UPDATE, whereSwitch);
         }
         if (limitSwitch && limitSwitch.limit) {
-          UPDATE += ' LIMIT ' + limitSwitch.num;
+          UPDATE += ` LIMIT ${limitSwitch.num}`;
         }
         break;
-      case 'DELETE':
-        DELETE = 'DELETE FROM ' + tableName;
+      case "DELETE":
+        DELETE = `DELETE FROM ${tableName}`;
         if (whereSwitch && whereSwitch.where) {
           DELETE = whereResolve(DELETE, whereSwitch);
         }
         if (limitSwitch && limitSwitch.limit) {
-          DELETE += ' LIMIT ' + limitSwitch.num;
+          DELETE += ` LIMIT ${limitSwitch.num}`;
         }
         break;
-      case 'INSERT':
-        INSERT = 'INSERT INTO ' + tableName;
+      case "INSERT":
+        INSERT = `INSERT INTO ${tableName}`;
         var insertProp = Object.keys(sqlType.prop);
         if (insertProp.length) {
           for (let i = 0, len = insertProp.length; i < len; i++) {
             var cur = insertProp[i];
 
-
             if (len == 1) {
-              INSERT += '(`' + cur + '`)';
+              INSERT += `(\`${cur}\`)`;
               break;
             }
             if (i == 0) {
-              INSERT += '(`' + cur;
+              INSERT += `(\`${cur}`;
             } else if (i == len - 1) {
-              INSERT += '`,`' + cur + '`)';
+              INSERT += `\`,\`${cur}\`)`;
             } else {
-              INSERT += '`, `' + cur;
+              INSERT += `\`, \`${cur}`;
             }
           }
-          INSERT += ' VALUES ';
+          INSERT += " VALUES ";
           for (let j = 0, leng = insertProp.length; j < leng; j++) {
-            var curr = insertProp[j];
-            if (sqlType.prop[curr] && typeof(sqlType.prop[curr])=='string') {
-              sqlType.prop[curr] = sqlType.prop[curr].replace(/'/g, "''")
+            const curr = insertProp[j];
+            if (sqlType.prop[curr] && typeof sqlType.prop[curr] === "string") {
+              sqlType.prop[curr] = sqlType.prop[curr].replace(/'/g, "''");
             }
 
             if (leng == 1) {
-              INSERT += "('" + sqlType.prop[curr] + "')";
+              INSERT += `('${sqlType.prop[curr]}')`;
               break;
             }
 
             if (j == 0) {
-              INSERT += "('" + sqlType.prop[curr];
+              INSERT += `('${sqlType.prop[curr]}`;
             } else if (j == leng - 1) {
-              INSERT += "','" + sqlType.prop[curr] + "')";
+              INSERT += `','${sqlType.prop[curr]}')`;
             } else {
-              INSERT += "','" + sqlType.prop[curr];
-
+              INSERT += `','${sqlType.prop[curr]}`;
             }
           }
         }
@@ -181,6 +181,6 @@ var sqlJoin = (function() {
     var INSERT = INSERT.replace(/'null'/g, null);
     return { SELECT, UPDATE, DELETE, INSERT }[sqlType.type];
   };
-  return sqlJoin
+  return sqlJoin;
 })();
 module.exports = sqlJoin;

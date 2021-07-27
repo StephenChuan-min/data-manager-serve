@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var operation = require('./operation')
-var condition = require('./condition')
+const express = require("express");
 
-router.use('/operation', operation)
-router.use('/condition', condition)
+const router = express.Router();
+const operation = require("./operation");
+const condition = require("./condition");
+
+router.use("/operation", operation);
+router.use("/condition", condition);
 
 module.exports = router;

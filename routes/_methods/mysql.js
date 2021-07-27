@@ -1,90 +1,84 @@
-'use strict';
-const mysql = require('mysql');
-var sqljoin = require('./pulgin/sqljoin')
-var dataparse = require('./pulgin/dataformt')
-var config = require('../../serverconfig')
+const mysql = require("mysql");
+const sqlJoin = require("./pulgin/sqljoin");
+const dataparse = require("./pulgin/dataformt");
+const config = require("../../serverconfig");
 
-var pool = mysql.createPool(config.MYSQLCONFIG);
+const pool = mysql.createPool(config.MYSQLCONFIG);
 
-var SEND_RES = (res, text, data, flag, status) => {
-  status = !flag ? (status || 200) : (status || 500);
-  let obj = {
-    status: status,
+const SEND_RES = (res, text, data = null, flag = false, status) => {
+  const _status = !flag ? status || 200 : status || 500;
+  const obj = {
+    status: _status,
     msg: text,
-  }
-  if (data) obj.data = data
-  res.send(JSON.stringify(obj))
-}
+  };
+  if (data) obj.data = data;
+  res.send(JSON.stringify(obj));
+};
 
-var beginTSA = () => {
-  return new Promise(function (resolve, reject) {
-    pool.getConnection(function (err, connection) {
-      if (err) {
-        reject(err);
-        return;
+const beginTSA = () =>
+  new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) reject(err);
+      else {
+        connection.beginTransaction((error) => {
+          if (error) reject(error);
+          else {
+            resolve(connection);
+          }
+        });
       }
-      connection.beginTransaction(err => {
-        if (err) reject(err);
-        else {
-          resolve(connection);
-        }
-      });
-    })
-  })
-}
-/**只返回 连接状态  */
-var course = (connection, sql, params) => {
-  return new Promise(function (resolve, reject) {
-    connection.query(sql, params, function (err, res) {
+    });
+  });
+/** 只返回 连接状态  */
+const course = (connection, sql, params) =>
+  new Promise((resolve, reject) => {
+    connection.query(sql, params, (err, res) => {
       // console.log('res')
       if (err) {
-        return connection.rollback(function () {
+        return connection.rollback(() => {
           resolve(err);
-        })
+        });
       }
       resolve(connection);
     });
-  })
-}
-/**返回 连接状态 && 查询结果 */
-var course_res = (connection, sql, params) => {
-  return new Promise(function (resolve, reject) {
-    connection.query(sql, params, function (err, res) {
+  });
+/** 返回 连接状态 && 查询结果 */
+const course_res = (connection, sql, params) =>
+  new Promise((resolve, reject) => {
+    connection.query(sql, params, (err, res) => {
       if (err) {
-        return connection.rollback(function () {
+        return connection.rollback(() => {
           resolve(err);
-        })
+        });
       }
       resolve({
         con: connection,
-        res: res || null
+        res: res || null,
       });
     });
-  })
-}
+  });
 
-var finishTSA = (connection) => {
-  return new Promise(function (resolve, reject) {
-    connection.commit(function (err) {
+const finishTSA = (connection) =>
+  new Promise((resolve, reject) => {
+    connection.commit((err) => {
       if (err) {
-        return connection.rollback(function () {
+        return connection.rollback(() => {
           resolve(err);
-        })
+        });
       }
-      resolve('success');
+      resolve("success");
     });
-  })
-}
+  });
 
-//将结果与对象数组返回
-var row = (sql, params) => {
-  return new Promise(function (resolve, reject) {
-    pool.getConnection(function (err, connection) {
+// 将结果与对象数组返回
+const row = (sql, params) =>
+  new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
       if (err) {
         reject(err);
         return;
       }
-      connection.query(sql, params, function (error, res) {
+      connection.query(sql, params, (error, res) => {
         connection.release();
         if (error) {
           reject(error);
@@ -94,18 +88,15 @@ var row = (sql, params) => {
       });
     });
   });
-};
-//返回一个对象
-var first = (sql, params) => {
-
-  return new Promise(function (resolve, reject) {
-
-    pool.getConnection(function (err, connection) {
+// 返回一个对象
+const first = (sql, params) =>
+  new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
       if (err) {
         reject(err);
         return;
       }
-      connection.query(sql, params, function (error, res) {
+      connection.query(sql, params, (error, res) => {
         connection.release();
         if (error) {
           reject(error);
@@ -115,16 +106,16 @@ var first = (sql, params) => {
       });
     });
   });
-};
-//返回单个查询结果
-var single = (sql, params) => {
-  return new Promise(function (resolve, reject) {
-    pool.getConnection(function (err, connection) {
+// 返回单个查询结果
+const single = (sql, params) => {
+  console.log("getConnection");
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
       if (err) {
         reject(err);
         return;
       }
-      connection.query(sql, params, function (error, res) {
+      connection.query(sql, params, (error, res) => {
         connection.release();
         if (error) {
           reject(error);
@@ -140,16 +131,16 @@ var single = (sql, params) => {
       });
     });
   });
-}
-//执行代码，返回执行结果
-var execute = (sql, params) => {
-  return new Promise(function (resolve, reject) {
-    pool.getConnection(function (err, connection) {
+};
+// 执行代码，返回执行结果
+const execute = (sql, params) =>
+  new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
       if (err) {
         reject(err);
         return;
       }
-      connection.query(sql, params, function (error, res) {
+      connection.query(sql, params, (error, res) => {
         connection.release();
         if (error) {
           reject(error);
@@ -159,22 +150,20 @@ var execute = (sql, params) => {
       });
     });
   });
-}
 
-
-//模块导出
+// 模块导出
 module.exports = {
   TSA: {
     begin: beginTSA,
     finish: finishTSA,
-    course: course,
-    course_res: course_res
+    course,
+    course_res,
   },
-  SEND_RES: SEND_RES,
+  SEND_RES,
   ROW: row,
   FIRST: first,
   SINGLE: single,
   EXECUTE: execute,
-  SQLJOIN: sqljoin,
+  SQLJOIN: sqlJoin,
   DATEF: dataparse,
-}
+};

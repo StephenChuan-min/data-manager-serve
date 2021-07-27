@@ -1,11 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var article = require('./article')
-var login = require('./login')
-var redis = require('./redis')
+const express = require("express");
 
-router.use('/login', login)
-router.use('*',redis)
-router.use('/article', article)
+const router = express.Router();
+const article = require("./article");
+const login = require("./login");
+const redis = require("./redis");
+
+router.use("/login", login);
+router.use("*", redis);
+router.use("/article", article);
 
 module.exports = router;

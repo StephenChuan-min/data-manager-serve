@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "node-dev ./bin/www",
+    "test": "node-dev ./bin/www --notify=false",
     "start": "pm2 start ./bin/www --name nServer --watch",
     "api": "apidoc -i routes/ -o public/api-doc/"
   },
