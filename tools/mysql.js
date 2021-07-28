@@ -1,7 +1,7 @@
-const mysql = require("mysql");
-const sqlJoin = require("./pulgin/sqljoin");
-const dataParse = require("./pulgin/dataformt");
-const config = require("../serverconfig");
+const mysql = require('mysql');
+const sqlJoin = require('./pulgin/sqljoin');
+const dataParse = require('./pulgin/dataformt');
+const config = require('../serverconfig');
 
 const pool = mysql.createPool(config.MYSQLCONFIG);
 
@@ -52,7 +52,7 @@ const finishTSA = (connection) =>
   new Promise((resolve) => {
     connection.commit((err) => {
       if (err) connection.rollback(() => resolve(err));
-      resolve("success");
+      resolve('success');
     });
   });
 
@@ -86,8 +86,8 @@ const first = (sql, params) =>
     });
   });
 // 返回单个查询结果
-const single = (sql, params) =>
-  new Promise((resolve, reject) => {
+const single = function (sql, params) {
+  return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) reject(err);
       else {
@@ -99,6 +99,8 @@ const single = (sql, params) =>
       }
     });
   });
+};
+
 // 执行代码，返回执行结果
 const execute = (sql, params) =>
   new Promise((resolve, reject) => {

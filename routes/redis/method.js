@@ -1,4 +1,4 @@
-const redis = require("redis");
+const redis = require('redis');
 
 const set = (key, value, time) => {
   const client = redis.createClient();
@@ -12,11 +12,8 @@ const get = (key) =>
     const client = redis.createClient();
     client.get(key, (err, response) => {
       client.quit();
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(response);
+      if (err) reject(err);
+      else resolve(response);
     });
   });
 
@@ -26,20 +23,16 @@ const del = (key) => {
   client.quit();
 };
 
-const keys = function (key, type) {
-  return new Promise((resolve, reject) => {
+const keys = (key, type) =>
+  new Promise((resolve, reject) => {
     const client = redis.createClient();
     const _key = type ? `*#${key}` : `${key}#*`;
     client.keys(_key, (err, response) => {
       client.quit();
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(response[0]);
+      if (err) reject(err);
+      else resolve(response[0]);
     });
   });
-};
 
 module.exports = {
   set,

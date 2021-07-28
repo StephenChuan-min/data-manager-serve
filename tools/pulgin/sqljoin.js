@@ -1,16 +1,14 @@
 const sqlJoin = (function methods() {
   const whereResolve = function (_type, whereSwitch) {
     let type = _type;
-    if (whereSwitch.where) type += " WHERE ";
-    const keyAry =
-      whereSwitch && whereSwitch.whereProp ? whereSwitch.whereProp : [];
+    if (whereSwitch.where) type += ' WHERE ';
+    const keyAry = whereSwitch && whereSwitch.whereProp ? whereSwitch.whereProp : [];
     if (keyAry.length) {
       for (let i = 0; i < keyAry.length; i += 1) {
         const c = keyAry[i];
-        if (typeof c === "object") {
+        if (typeof c === 'object') {
           for (const key in c) {
-            if (key !== "operator")
-              type += `\`${key}\`${c.operator ? c.operator : "="}'${c[key]}'`;
+            if (key !== 'operator') type += `\`${key}\`${c.operator ? c.operator : '='}'${c[key]}'`;
           }
         } else if (/(AND)?(OR)?/.test(c)) {
           type += ` ${c} `;
@@ -19,9 +17,7 @@ const sqlJoin = (function methods() {
         }
       }
     }
-    const likeKeyArr = whereSwitch.likeProp
-      ? Object.keys(whereSwitch.likeProp)
-      : [];
+    const likeKeyArr = whereSwitch.likeProp ? Object.keys(whereSwitch.likeProp) : [];
     if (likeKeyArr.length) {
       if (likeKeyArr.length > 1) {
         for (let j = 0; j < likeKeyArr.length; j += 1) {
@@ -41,14 +37,14 @@ const sqlJoin = (function methods() {
     return type;
   };
   return (sqlType, tableName, whereSwitch, limitSwitch) => {
-    let SELECT = "";
-    let UPDATE = "";
-    let DELETE = "";
-    let INSERT = "";
+    let SELECT = '';
+    let UPDATE = '';
+    let DELETE = '';
+    let INSERT = '';
     switch (sqlType.type) {
-      case "SELECT": {
-        SELECT = "SELECT ";
-        if (sqlType.distinct) SELECT += " DISTINCT ";
+      case 'SELECT': {
+        SELECT = 'SELECT ';
+        if (sqlType.distinct) SELECT += ' DISTINCT ';
         const prop = [...sqlType.prop];
         if (prop && prop.length) {
           for (let i = 0; i < prop.length; i += 1) {
@@ -60,18 +56,16 @@ const sqlJoin = (function methods() {
             }
           }
         } else {
-          SELECT += " *";
+          SELECT += ' *';
         }
         SELECT += ` FROM \`${tableName}\``;
         if (whereSwitch) {
           SELECT = whereResolve(SELECT, whereSwitch);
         }
 
-        const orderArr = sqlType.orderProp
-          ? Object.keys(sqlType.orderProp)
-          : [];
+        const orderArr = sqlType.orderProp ? Object.keys(sqlType.orderProp) : [];
         if (orderArr.length) {
-          SELECT += " ORDER BY ";
+          SELECT += ' ORDER BY ';
           for (let m = 0; m < orderArr.length; m += 1) {
             const c = orderArr[m];
             if (m === orderArr.length - 1) {
@@ -94,15 +88,15 @@ const sqlJoin = (function methods() {
 
         break;
       }
-      case "UPDATE": {
-        UPDATE = "UPDATE ";
+      case 'UPDATE': {
+        UPDATE = 'UPDATE ';
         UPDATE += `${tableName} SET `;
         const prop = { ...sqlType.prop };
         const updateKeys = Object.keys(prop);
         for (let i = 0; i < updateKeys.length; i += 1) {
           const cur = updateKeys[i];
           // console.log(sqlType.prop[cur])
-          if (prop[cur] && typeof prop[cur] === "string") {
+          if (prop[cur] && typeof prop[cur] === 'string') {
             prop[cur] = prop[cur].replace(/'/g, "''");
           }
           if (i === updateKeys.length - 1) {
@@ -119,7 +113,7 @@ const sqlJoin = (function methods() {
         }
         break;
       }
-      case "DELETE":
+      case 'DELETE':
         DELETE = `DELETE FROM ${tableName}`;
         if (whereSwitch && whereSwitch.where) {
           DELETE = whereResolve(DELETE, whereSwitch);
@@ -128,7 +122,7 @@ const sqlJoin = (function methods() {
           DELETE += ` LIMIT ${limitSwitch.num}`;
         }
         break;
-      case "INSERT": {
+      case 'INSERT': {
         INSERT = `INSERT INTO ${tableName}`;
         const prop = { ...sqlType.prop };
 
@@ -149,10 +143,10 @@ const sqlJoin = (function methods() {
               INSERT += `\`, \`${cur}`;
             }
           }
-          INSERT += " VALUES ";
+          INSERT += ' VALUES ';
           for (let j = 0, leng = insertProp.length; j < leng; j += 1) {
             const curr = insertProp[j];
-            if (prop[curr] && typeof prop[curr] === "string") {
+            if (prop[curr] && typeof prop[curr] === 'string') {
               prop[curr] = prop[curr].replace(/'/g, "''");
             }
 

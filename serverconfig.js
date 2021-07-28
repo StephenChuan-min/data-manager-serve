@@ -1,4 +1,4 @@
-const hostname = "";
+const hostname = '';
 const port = 3000;
 const mysqlConfig = {
   connectionLimit: 50,
@@ -24,10 +24,10 @@ const mysqlConfig = {
   // database: 'film',
 
   // company-localhost
-  host: "localhost",
-  user: "root",
-  password: "password",
-  database: "temp_user",
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'temp_user',
 
   typeCast: true, // 是否把结果值转换为原生的 javascript 类型
   multipleStatements: true, // 是否允许执行多条sql语句
