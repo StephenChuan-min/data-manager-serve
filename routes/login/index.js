@@ -1,8 +1,8 @@
 const express = require("express");
 
 const router = express.Router();
-const MYSQL = require("../../../tools/mysql");
-const handler = require("../../_methods/pulgin/cryhandler");
+const MYSQL = require("../../tools/mysql");
+const handler = require("../../tools/pulgin/cryhandler");
 
 const redisMethod = require("../redis/method");
 

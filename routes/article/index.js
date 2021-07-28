@@ -6,13 +6,9 @@ const router = express.Router();
 // var MYSQL = require('../method/MYSQL.js');
 
 const { MYSQL } = global;
-router.post("*", (req, res, next) => {
-  next();
-});
 
-router.post("/data", (req, res, next) => {
+router.post("/data", (req, res) => {
   const t = req.body;
-  // console.log(tokeninfo.id)
   const tokenInfo = global.tokeninfo;
   let sql = `SELECT \`id\`,\`title\`,\`introduce\`,\`updatetime\`,\`type\`  FROM \`as_basic\`  WHERE writerid = ${tokenInfo.id} ORDER BY  \`updatetime\` DESC `;
   let LIMIT;
@@ -50,7 +46,7 @@ router.post("/data", (req, res, next) => {
     });
 });
 
-router.post("/content", (req, res, next) => {
+router.post("/content", (req, res) => {
   const t = req.body;
   if (!t.id) {
     MYSQL.SEND_RES(res, "数据异常,请稍后再试!", null, false);
@@ -71,7 +67,7 @@ router.post("/content", (req, res, next) => {
   // console.log(1111)
 });
 
-router.post("/content/edit", (req, res, next) => {
+router.post("/content/edit", (req, res) => {
   const t = req.body;
   const nowTime = MYSQL.DATEF(new Date(), "yyyy/MM/dd hh:mm:ss");
   const tokenInfo = global.tokeninfo;
@@ -135,7 +131,7 @@ router.post("/content/edit", (req, res, next) => {
   }
 });
 
-router.post("/c", (req, res, next) => {
+router.post("/c", (req, res) => {
   // crypto.decrypt(encrypted, key) => {
   // 注意，encrypted是Buffer类型
   // console.log(req.body);

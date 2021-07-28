@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 // var mysql = require('../method/mysql');
 const redisMethod = require("./method");
-const globalPara = require("../../_methods/dataSource/global");
+const globalPara = require("../../tools/dataSource/global");
 
 /* redis 公共模块 baseUrl 校验 */
 router.post("*", (req, res, next) => {
@@ -16,8 +16,8 @@ router.post("*", (req, res, next) => {
       break;
     }
   }
-  if (result) next();
-  else MYSQL.SEND_RES(res, "Specified route cannot be found", null, false, 806);
+  if (!result) res.sendErr("Specified route cannot be found", 806);
+  next();
 });
 
 /* redis 公共模块 token 校验 */
@@ -28,13 +28,7 @@ router.post("/", (req, res, next) => {
   const token = req.body.token || "";
   if (!token) {
     /* 无效的access token */
-    MYSQL.SEND_RES(
-      res,
-      "Parameter token invalid or no longer valid",
-      null,
-      false,
-      110
-    );
+    res.sendErr("Parameter token invalid or no longer valid", 110);
   } else {
     redisMethod
       .keys(token, 1)
@@ -49,7 +43,7 @@ router.post("/", (req, res, next) => {
       })
       .catch((err) => {
         // access token过期
-        MYSQL.SEND_RES(res, "Parameter token expired", null, false, 111);
+        res.sendErr("Parameter token expired", 111);
       });
   }
 });

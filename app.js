@@ -8,20 +8,10 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const index = require("./routes");
-
 const tools = require("./tools");
 
-// var lotopr_lot = require('./routes/lotopr/lot')
-// var lotopr_opt = require('./routes/lotopr/opt')
-// const global = require('./routes/method/global')
-// const redisModule = require('./routes/redisModule')
-// const articleModule = require('./routes/articleModule')
-// const loginModule = require('./routes/loginModule')
-
 const standard = require("./routes/standard");
-const additional = require("./routes/additional");
 
-const global = require("./routes/_methods/dataSource/global");
 const routerPathHandle = require("./routes/_methods/routerPath");
 
 // // view engine setup
@@ -33,11 +23,7 @@ app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: false,
-  })
-);
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
@@ -59,17 +45,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/", index);
-/* blog内容 */
 app.use("/", standard);
-/* 运营内容 */
-// app.use('/',additional)
-
-// app.use('/login', loginModule)
-// app.use('/', redisModule);
-// app.use('/pro', articleModule)
-
-// app.use('/open/ui/condition', lotopr_lot)
-// app.use('/open/ui/operation', lotopr_opt)
 
 // // catch 404 and forward to error handler
 app.use((req, res, next) => {

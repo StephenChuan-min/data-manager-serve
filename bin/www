@@ -4,62 +4,58 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+const app = require("../app");
 
-var debug = require('debug')('apiserver:server');
+const debug = require("debug")("apiserver:server");
 
-var http = require('http');
+const http = require("http");
 
-var config = require('../serverconfig');
-
-var WebSocket = require('ws');
+const WebSocket = require("ws");
+const config = require("../serverconfig");
 
 /**
  * Get port from environment and store in Express.
  */
 // var hostname ='172.17.72.16';
 
-var hostname = config.HOSTNAME || '';
-var port = config.PORT || normalizePort(process.env.PORT || '3000');
+const hostname = config.HOSTNAME || "";
+const port = config.PORT || normalizePort(process.env.PORT || "3000");
 
-app.set('port', port);
+app.set("port", port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+const server = http.createServer(app);
 
-var wss = new WebSocket.Server({server});
+const wss = new WebSocket.Server({ server });
 
-wss.on('connection', function connection(ws) {
-    console.log('链接成功！');
-    ws.on('message', function incoming(data) {
-      console.log(data)
-        /**
-         * 把消息发送到所有的客户端
-         * wss.clients获取所有链接的客户端
-         */
-        wss.clients.forEach(function each(client) {
-          console.log(data)
-            client.send(data);
-        });
+wss.on("connection", (ws) => {
+  ws.on("message", (data) => {
+    /**
+     * 把消息发送到所有的客户端
+     * wss.clients获取所有链接的客户端
+     */
+    wss.clients.forEach((client) => {
+      client.send(data);
     });
+  });
 });
 /**
  * Listen on provided port, on all network interfaces.
  */
 
 server.listen(port, hostname);
-server.on('error', onError);
-server.on('listening', onListening);
+server.on("error", onError);
+server.on("listening", onListening);
 
 /**
  * Normalize a port into a number, string, or false.
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  const port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -79,22 +75,20 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
+  if (error.syscall !== "listen") {
     throw error;
   }
 
-  var bind = typeof port === 'string' ?
-    'Pipe ' + port :
-    'Port ' + port;
+  const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+    case "EACCES":
+      console.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+    case "EADDRINUSE":
+      console.error(`${bind} is already in use`);
       process.exit(1);
       break;
     default:
@@ -107,9 +101,7 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string' ?
-    'pipe ' + addr :
-    'port ' + addr.port;
-  debug('Listening on ' + bind);
+  const addr = server.address();
+  const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
+  debug(`Listening on ${bind}`);
 }
