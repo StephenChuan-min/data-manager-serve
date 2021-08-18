@@ -6,13 +6,6 @@ const login = require('./login');
 const redis = require('./redis');
 const article = require('./article');
 
-/* Check router path . */
-// router.get('/', (req, res, next) => {
-//   res.send(`GET request to homepage`);
-//
-//   res.location('/index2.html');
-// });
-
 // router.get('/url', (req, res, next) => {
 //   // parseHandle("", urls, router.app._router)
 //   res.send(`GET request to homepage`);

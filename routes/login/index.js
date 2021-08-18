@@ -20,14 +20,25 @@ router.post('*', (req, res, next) => {
  * @apiParam {String} [firstname]       Optional Firstname of the User.
  * @apiParam {String} lastname          Mandatory Lastname.
  * @apiParam {String} country="DE"      Mandatory with default value "DE".
- * @apiParam {Number} [age=18]          Optional Age with default 18.
+ * @apiParam {Number} [age=18]          Optional Age with default 89.
  *
  * @apiParam {Object} [address]         Optional nested address object.
- * @apiParam {String} [address[street]] Optional street and number.
- * @apiParam {String} [address[zip]]    Optional zip code.
- * @apiParam {String} [address[city]]   Optional city.
+ * @apiParam {String} [address.street] Optional street and number.
+ * @apiParam {String} [address.zip]    Optional zip code.
+ * @apiParam {String} [address.city]   Optional city.
  *
- * @apiSuccess {json} result    test
+ * @apiSuccess {Number}   id            The Users-ID.
+ * @apiSuccess {Date}     registered    Registration Date.
+ * @apiSuccess {String}   name          Fullname of the User.
+ * @apiSuccess {String[]} nicknames     List of Users nicknames (Array of Strings).
+ * @apiSuccess {Object}   profile       Profile data (example for an Object)
+ * @apiSuccess {Number}   profile.age   Users age.
+ * @apiSuccess {String}   profile.image Avatar-Image.
+ *
+ * @apiParam (options) {Object[]} options       List of Users options (Array of Objects).
+ * @apiParam (options) {String}   options.name  Option Name.
+ * @apiParam (options) {String}   options.value Option Value.
+ *
  * @apiSuccessExample {json} Success-Response:
  *  {
  *      "success" : "true",
@@ -41,6 +52,25 @@ router.post('*', (req, res, next) => {
  *
  */
 
+/**
+ * @swagger
+ * tags:
+ *  - name: "login about"
+ *    description:'登录模块'
+ *    externalDocs:
+ *      description: '登录相关接口'
+ * paths:
+ *  /in:
+ *    post:
+ *      tags: - 'login about'
+ *      summary: "Add a new pet to the store"
+ *      parameters:
+ *      - name:'name'
+ *        in:'body',
+ *        required: true
+ *        type: 'string'
+ *        description:'用户名'
+ */
 router.post('/in', (req, res) => {
   const t = req.body;
   if (!t.name || !t.pwd) {
@@ -79,6 +109,32 @@ router.post('/in', (req, res) => {
     .catch((err) => res.errorText(err));
 });
 
+/**
+ * @api {get} /user/:id Read data of a User
+ * @apiVersion 1.0.0
+ * @apiName GetUser
+ * @apiGroup User
+ * @apiPermission admin
+ *
+ * @apiDescription Compare version 0.3.0 with 0.2.0 and you will see the green markers with new items in version 0.3.0 and red markers with
+ *
+ *
+ * @apiSuccess {Number}   id            The Users-ID.
+ * @apiSuccess {Date}     registered    Registration Date.
+ * @apiSuccess {String}   name          Fullname of the User.
+ * @apiSuccess {String[]} nicknames     List of Users nicknames (Array of Strings).
+ * @apiSuccess {Object}   profile       Profile data (example for an Object)
+ * @apiSuccess {Number}   profile.age   Users age.
+ * @apiSuccess {String}   profile.image Avatar-Image.
+ * @apiSuccess {Object[]} options       List of Users options (Array of Objects).
+ * @apiSuccess {String}   options.name  Option Name.
+ * @apiSuccess {String}   options.value Option Value.
+ *
+ * @apiError NoAccessRight Only authenticated Admins can access the data.
+ * @apiError UserNotFound   The <code>id</code> of the User was not found.
+ * @apiError (500 Internal Server Error) InternalServerError The server encountered an internal error
+ *
+ */
 router.post('/reg', (req, res, next) => {
   const t = req.body;
   if (!t.name || !t.pwd) {
