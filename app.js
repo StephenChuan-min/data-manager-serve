@@ -12,7 +12,7 @@ const tools = require('./tools');
 
 const routerPathHandle = require('./tools/routerPath');
 
-const swagger = require('./swagger.config');
+// const swagger = require('./swagger.config');
 // // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
@@ -21,7 +21,7 @@ const swagger = require('./swagger.config');
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 // api-docs【swagger】
-app.use('/api-docs', swagger.serve, swagger.setup);
+// app.use('/api-docs', swagger.serve, swagger.setup);
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

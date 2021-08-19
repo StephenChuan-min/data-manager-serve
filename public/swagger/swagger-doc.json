@@ -1,0 +1,84 @@
+{
+  "description": "数据管理平台",
+  "version": "1.0.0",
+  "title": "数据管理平台-接口文档",
+  "contact": {
+    "name": "async",
+    "email": ""
+  },
+  "license": {
+    "name": "Apache 2.0",
+    "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+  },
+  "swagger": "2.0",
+  "paths": {
+    "/in": {
+      "post": {
+        "tags": [
+          "login-about"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "operationId": "login-about-1",
+        "summary": "Add a new pet to the store",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "用户名"
+          }
+        ]
+      },
+      "get":{
+        "tags": [
+          "部门管理模块"
+        ],
+        "summary": "删除部门信息",
+        "operationId": "deleteUsingGET_6",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "id",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResultInfo"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {},
+  "responses": {},
+  "parameters": {},
+  "securityDefinitions": {},
+  "tags": []
+}

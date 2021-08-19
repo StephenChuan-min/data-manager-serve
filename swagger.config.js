@@ -1,20 +1,32 @@
+const fs = require('fs');
 const path = require('path');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 
-const option = {
+const swaggerDeploy = swaggerJsDoc({
+  swagger: '2.0',
   definition: {
-    openapi: '3.0.0',
-    title: '接口文档相关管理',
     info: {
+      description: '数据管理平台',
       version: '1.0.0',
-      description: '相关描述',
+      title: '数据管理平台-接口文档',
+      contact: {
+        name: 'async',
+        email: '',
+      },
+      license: {
+        name: 'Apache 2.0',
+        url: 'http://www.apache.org/licenses/LICENSE-2.0.html',
+      },
     },
   },
-  apis: [path.join(__dirname, '/routes/*js')],
-};
+  host: 'localhost',
+  basePath: '/',
+  apis: [path.join(__dirname, '/routes/*.js')],
+});
 
-const swaggerDeploy = swaggerJsDoc(option);
+// console.log(swaggerDeploy, typeof swaggerDeploy);
+fs.writeFileSync(`./swagger-doc.json`, JSON.stringify(swaggerDeploy));
 
 module.exports = {
   serve: swaggerUI.serve,

@@ -10,67 +10,19 @@ router.post('*', (req, res, next) => {
   next();
 });
 
-/**
- * @api {post} /api/user/submit-login 用户登录
- * @apiDescription 用户登录
- * @apiName submit-login
- * @apiGroup User
- * @apiParam {string} loginName         用户名
- * @apiParam {string} loginPass         密码
- * @apiParam {String} [firstname]       Optional Firstname of the User.
- * @apiParam {String} lastname          Mandatory Lastname.
- * @apiParam {String} country="DE"      Mandatory with default value "DE".
- * @apiParam {Number} [age=18]          Optional Age with default 89.
- *
- * @apiParam {Object} [address]         Optional nested address object.
- * @apiParam {String} [address.street] Optional street and number.
- * @apiParam {String} [address.zip]    Optional zip code.
- * @apiParam {String} [address.city]   Optional city.
- *
- * @apiSuccess {Number}   id            The Users-ID.
- * @apiSuccess {Date}     registered    Registration Date.
- * @apiSuccess {String}   name          Fullname of the User.
- * @apiSuccess {String[]} nicknames     List of Users nicknames (Array of Strings).
- * @apiSuccess {Object}   profile       Profile data (example for an Object)
- * @apiSuccess {Number}   profile.age   Users age.
- * @apiSuccess {String}   profile.image Avatar-Image.
- *
- * @apiParam (options) {Object[]} options       List of Users options (Array of Objects).
- * @apiParam (options) {String}   options.name  Option Name.
- * @apiParam (options) {String}   options.value Option Value.
- *
- * @apiSuccessExample {json} Success-Response:
- *  {
- *      "success" : "true",
- *      "result" : {
- *          "name" : "loginName",
- *          "password" : "loginPass"
- *      }
- *  }
- * @apiSampleRequest http://localhost:3000/api/user/submit-login
- * @apiVersion 1.0.0
- *
- */
-
-/**
- * @swagger
- * tags:
- *  - name: "login about"
- *    description:'登录模块'
- *    externalDocs:
- *      description: '登录相关接口'
- * paths:
- *  /in:
- *    post:
- *      tags: - 'login about'
- *      summary: "Add a new pet to the store"
- *      parameters:
- *      - name:'name'
- *        in:'body',
- *        required: true
- *        type: 'string'
- *        description:'用户名'
- */
+// /**
+//  * @swagger
+//  * /in:
+//  *   post:
+//  *    tags: - login about
+//  *    summary: Add a new pet to the store
+//  *    parameters:
+//  *     - name: name
+//  *       in: body
+//  *       required: true
+//  *       type: string
+//  *       description: 用户名
+//  */
 router.post('/in', (req, res) => {
   const t = req.body;
   if (!t.name || !t.pwd) {
