@@ -23,7 +23,7 @@ const swaggerDeploy = swaggerJsDoc({
   },
   host: 'localhost:3000',
   basePath: '/',
-  apis: [path.join(root, 'routes/*.js'), path.join(root, 'routes/*.yml')],
+  apis: [path.join(root, 'routes/**/*.js'), path.join(root, 'routes/**/*.yml')],
 });
 
 // console.log(swaggerDeploy, typeof swaggerDeploy);
