@@ -1,14 +1,13 @@
 {
-  "name": "node-server",
+  "name": "data-manager-platform",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "test": "node-dev ./bin/www --notify=false",
     "start": "pm2 start ./bin/www --name nServer --watch",
-    "api": "apidoc -i routes/ -o public/api-doc/"
+    "api": "node ./plug-in/swagger"
   },
   "dependencies": {
-    "apidoc": "0.29.0",
     "body-parser": "~1.19.0",
     "cookie-parser": "~1.4.3",
     "crypto": "^1.0.1",
@@ -20,8 +19,6 @@
     "redis": "^3.1.2",
     "serve-favicon": "~2.5.0",
     "swagger-jsdoc": "^6.1.0",
-    "swagger-ui-express": "^4.1.6",
-    "swagger-ui-dist": "3.52.0",
     "ws": "^7.5.3"
   },
   "devDependencies": {
@@ -33,9 +30,5 @@
     "node-dev": "^7.0.0",
     "prettier": "^2.3.2",
     "prettier-eslint": "^13.0.0"
-  },
-  "apidoc": {
-    "title": "接口文档",
-    "version": "1.0.0"
   }
 }

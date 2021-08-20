@@ -10,20 +10,34 @@ router.post('*', (req, res, next) => {
   next();
 });
 
-// /**
-//  * @swagger
-//  * /in:
-//  *   post:
-//  *    tags: - login about
-//  *    summary: Add a new pet to the store
-//  *    parameters:
-//  *     - name: name
-//  *       in: body
-//  *       required: true
-//  *       type: string
-//  *       description: 用户名
-//  */
+/**
+ * @swagger
+ * /login/in:
+ *   post:
+ *    tags:
+ *      - '登录模块'
+ *    summary: Add a new pet to the store
+ *    operationId: loginInGet1
+ *    parameters:
+ *     - in : body
+ *       name: info
+ *       required: true
+ *       type: object
+ *       description: 其他相关信息
+ *       schema:
+ *        $ref: '#/definitions/Order'
+ *    responses:
+ *      200:
+ *        description: 'success'
+ *        schema:
+ *          $ref: '#/definitions/Order'
+ *      201:
+ *        description: error
+ *      400:
+ *        description: no-111111
+ */
 router.post('/in', (req, res) => {
+  // console.log(next);
   const t = req.body;
   if (!t.name || !t.pwd) {
     res.errorText('The username or password can not be empty');
@@ -137,7 +151,7 @@ router.post('/reg', (req, res, next) => {
 //   num: 1
 // })
 
-router.post('/c', (req, res, next) => {
+router.post('/c/:id', (req, res, next) => {
   // console.log(2)
   const v = handler.encryptMD5();
   MYSQL.SEND_RES(res, 'token获取成功', v);
@@ -154,6 +168,7 @@ router.post('/c', (req, res, next) => {
   MYSQL.SEND_RES(res, 'A database error occurred. Please try again', null, false, 805);
   // res.render('index', { title: 'Express' });
 });
+
 router.post('/regin', (req, res, next) => {
   const v = handler.encryptMD5();
   MYSQL.SEND_RES(res, 'token获取成功', v);
