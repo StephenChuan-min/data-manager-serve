@@ -1,8 +1,6 @@
 function parseHandle(prefix, urls, handle) {
   if (!handle) return;
   handle.stack.forEach((layer) => {
-    console.log(layer);
-
     if (layer.name === 'router') {
       let llPrefix = prefix;
       const matchRes = layer.regexp.toString().match(/\\(\/[^/?]*)\\\//);
