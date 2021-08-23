@@ -1,0 +1,160 @@
+# 获取图片验证码
+/auth/getCaptcha:
+  get:
+    tags:
+      - '登录'
+    summary: 获取图形验证码
+    operationId: getCaptcha
+    parameters:
+      - in : query
+        name: phone
+        required: true
+        type: string
+        description: 手机号
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/CaptchaResponse'
+# 登录
+/auth/login:
+  post:
+    tags:
+      - '登录'
+    summary: 用户登录
+    operationId: login
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/LoginRequest'
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/LoginResponse'
+# 获取用户信息
+/auth/getUserInfo:
+  get:
+    tags:
+      - '登录'
+    summary: 获取用户信息
+    operationId: getUserInfo
+    produces:
+      - application/json
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/UserInfo'
+# 修改密码
+/auth/editPassword:
+  post:
+    tags:
+      - '登录'
+    summary: 修改密码
+    operationId: editPassword
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/EditPasswordRequest'
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/EmptyResponse'
+# 重置密码
+/admin/resetPassword:
+  post:
+    tags:
+      - '账号管理'
+    summary: 重置密码
+    operationId: resetPassword
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ResetPasswordRequest'
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/EmptyResponse'
+# 添加账号
+/admin/addAccount:
+  post:
+    tags:
+      - '账号管理'
+    summary: 添加账号
+    operationId: addAccount
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/AddAccountRequest'
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/EmptyResponse'
+# 删除账号
+/admin/deleteAccount:
+  post:
+    tags:
+      - '账号管理'
+    summary: 删除账号
+    operationId: deleteAccount
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/DeleteAccountRequest'
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/EmptyResponse'
+# 获取用户列表
+/admin/getUserList:
+  get:
+    tags:
+      - '账号管理'
+    summary: 获取用户列表
+    operationId: getUserList
+    parameters:
+      - in: query
+        name: role
+        required: true
+        type: integer
+        format: int32
+        description: 角色（1-开发账号  2-测试账号）
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/UserListResponse'
+
+
+
+
+
+
+
+
+

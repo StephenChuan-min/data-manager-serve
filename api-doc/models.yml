@@ -1,0 +1,188 @@
+definitions:
+  EmptyResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        default: 200
+        description: 返回码,200为正常,详情参考http状态码
+      data:
+        type: object
+        description: 返回数据
+      message:
+        type: string
+        description: 返回描述信息
+    xml:
+      name: EmptyResponse
+  CaptchaResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        default: 200
+        description: 返回码,200为正常,详情参考http状态码
+      data:
+        $ref: '#/definitions/CaptchaData'
+      message:
+        type: string
+        description: 返回描述信息
+    xml:
+      name: CaptchaResponse
+  CaptchaData:
+    type: object
+    properties:
+      captcha:
+        type: string
+        description: 图片验证码（base64）
+    xml:
+      name: CaptchaData
+  LoginRequest:
+    type: object
+    properties:
+      username:
+        type: string
+        description: 手机号
+      password:
+        type: string
+        description: 密码
+      code:
+        type: string
+        description: 验证码
+    xml:
+      name: LoginRequest
+  LoginResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        default: 200
+        description: 返回码,200为正常,详情参考http状态码
+      data:
+        $ref: '#/definitions/UserInfo'
+      message:
+        type: string
+        description: 返回描述信息
+    xml:
+      name: LoginResponse
+  UserInfo:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: 用户id
+      role:
+        type: integer
+        description: 角色（0-管理账号  1-开发账号  2-测试账号）
+      user_name:
+        type: string
+        description: 姓名
+      user_mobile:
+        type: string
+        description: 手机号
+      is_modified:
+        type: integer
+        description: 是否需要修改密码（0-是 1-否）
+    xml:
+      name: LoginData
+  EditPasswordRequest:
+    type: object
+    properties:
+      newPassword:
+        type: string
+        description: 新密码
+      oldPassword:
+        type: string
+        description: 旧密码
+    xml:
+      name: EditPasswordRequest
+  ResetPasswordRequest:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: 用户id
+    xml:
+      name: ResetPasswordRequest
+  AddAccountRequest:
+    type: object
+    properties:
+      name:
+        type: string
+        description: 姓名
+      password:
+        type: string
+        description: 密码
+      phone:
+        type: string
+        description: 手机号
+    xml:
+      name: AddAccountRequest
+  DeleteAccountRequest:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: 用户id
+    xml:
+      name: DeleteAccountRequest
+  UserListResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        default: 200
+        description: 返回码,200为正常,详情参考http状态码
+      data:
+        $ref: '#/definitions/UserListData'
+      message:
+        type: string
+        description: 返回描述信息
+    xml:
+      name: UserListResponse
+  UserListData:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: 用户id
+      name:
+        type: string
+        description: 姓名
+      phone:
+        type: string
+        description: 手机号
+      abnormalNum:
+        type: integer
+        format: int64
+        description: 处理中开发异常数
+      editField:
+        type: integer
+        format: int64
+        description: 待修改映射数
+    xml:
+      name: UserListData
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
