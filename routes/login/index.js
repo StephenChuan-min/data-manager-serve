@@ -10,33 +10,6 @@ router.post('*', (req, res, next) => {
   next();
 });
 
-/**
- * @swagger
- * /login/in:
- *   post:
- *    tags:
- *      - '登录模块'
- *    summary: Add a new pet to the store
- *    operationId: loginInGet1
- *    parameters:
- *     - in : body
- *       name: info
- *       required: true
- *       type: object
- *       description: 其他相关信息
- *       schema:
- *        $ref: '#/definitions/Order'
- *    responses:
- *      200:
- *        description: 'success'
- *        schema:
- *          $ref: '#/definitions/Order'
- *      201:
- *        description: error
- *      400:
- *        description: no-111111
- */
-
 router.post('/in', (req, res) => {
   // console.log(next);
   const t = req.body;
@@ -76,32 +49,6 @@ router.post('/in', (req, res) => {
     .catch((err) => res.errorText(err));
 });
 
-/**
- * @api {get} /user/:id Read data of a User
- * @apiVersion 1.0.0
- * @apiName GetUser
- * @apiGroup User
- * @apiPermission admin
- *
- * @apiDescription Compare version 0.3.0 with 0.2.0 and you will see the green markers with new items in version 0.3.0 and red markers with
- *
- *
- * @apiSuccess {Number}   id            The Users-ID.
- * @apiSuccess {Date}     registered    Registration Date.
- * @apiSuccess {String}   name          Fullname of the User.
- * @apiSuccess {String[]} nicknames     List of Users nicknames (Array of Strings).
- * @apiSuccess {Object}   profile       Profile data (example for an Object)
- * @apiSuccess {Number}   profile.age   Users age.
- * @apiSuccess {String}   profile.image Avatar-Image.
- * @apiSuccess {Object[]} options       List of Users options (Array of Objects).
- * @apiSuccess {String}   options.name  Option Name.
- * @apiSuccess {String}   options.value Option Value.
- *
- * @apiError NoAccessRight Only authenticated Admins can access the data.
- * @apiError UserNotFound   The <code>id</code> of the User was not found.
- * @apiError (500 Internal Server Error) InternalServerError The server encountered an internal error
- *
- */
 router.post('/reg', (req, res, next) => {
   const t = req.body;
   if (!t.name || !t.pwd) {
@@ -143,14 +90,6 @@ router.post('/reg', (req, res, next) => {
       .catch(() => res.error(2));
   }
 });
-// _item_prop.creatime = nowtime;
-// var sql = MYSQL.SQLJOIN({
-//   type: 'INSERT',
-//   prop: _item_prop
-// }, 'as_basic', {
-//   limit: true,
-//   num: 1
-// })
 
 router.post('/c/:id', (req, res, next) => {
   // console.log(2)
