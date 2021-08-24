@@ -21,7 +21,7 @@
   post:
     tags:
       - '登录'
-    summary: 用户登录
+    summary: 登录
     operationId: login
     produces:
       - application/json
@@ -36,6 +36,20 @@
         description: 'success'
         schema:
           $ref: '#/definitions/LoginResponse'
+# 退出登录
+/auth/logout:
+  get:
+    tags:
+      - '登录'
+    summary: 退出登录
+    operationId: logout
+    produces:
+      - application/json
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/EmptyResponse'
 # 获取用户信息
 /auth/getUserInfo:
   get:
@@ -65,26 +79,6 @@
         required: true
         schema:
           $ref: '#/definitions/EditPasswordRequest'
-    responses:
-      200:
-        description: 'success'
-        schema:
-          $ref: '#/definitions/EmptyResponse'
-# 重置密码
-/admin/resetPassword:
-  post:
-    tags:
-      - '账号管理'
-    summary: 重置密码
-    operationId: resetPassword
-    produces:
-      - application/json
-    parameters:
-      - in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/ResetPasswordRequest'
     responses:
       200:
         description: 'success'
@@ -130,12 +124,34 @@
         description: 'success'
         schema:
           $ref: '#/definitions/EmptyResponse'
+# 重置密码
+/admin/resetPassword:
+  post:
+    tags:
+      - '账号管理'
+    summary: 重置密码
+    operationId: resetPassword
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ResetPasswordRequest'
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/EmptyResponse'
 # 获取用户列表
 /admin/getUserList:
   get:
     tags:
       - '账号管理'
     summary: 获取用户列表
+    produces:
+      - application/json
     operationId: getUserList
     parameters:
       - in: query
@@ -144,12 +160,291 @@
         type: integer
         format: int32
         description: 角色（1-开发账号  2-测试账号）
+      - in: query
+        name: num
+        required: true
+        type: integer
+        format: int32
+        description: 每页条数，默认20 ,示例值(20)
+      - in: query
+        name: page
+        required: true
+        type: integer
+        format: int32
+        description: 页数。1开始，默认1 ,示例值(1)
     responses:
       200:
         description: 'success'
         schema:
           $ref: '#/definitions/UserListResponse'
-
+# 查询人员分类
+/abnormal/getHandler:
+  get:
+    tags:
+      - '账号管理'
+    summary: 查询账号人员数据
+    operationId: getHandler
+    produces:
+      - application/json
+    parameters:
+      - in: query
+        name: role
+        required: true
+        type: integer
+        format: int32
+        description: 权限
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/UserResponse'
+# 获取开发异常数据类型
+/abnormal/getDataType:
+  get:
+    tags:
+      - '开发异常'
+    summary: 获取数据类型
+    operationId: getDataType
+    produces:
+      - application/json
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/AbnormalTypeResponse'
+# 查询开发异常列表
+/abnormal/getAbnormalList:
+  post:
+    tags:
+      - '开发异常'
+    summary: 查询开发异常列表
+    operationId: getAbnormalList
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/AbnormalListRequest'
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/AbnormalListResponse'
+# 查询开发异常详情
+/abnormal/getAbnormalInfo:
+  get:
+    tags:
+      - '开发异常'
+    summary: 查询开发异常详情
+    operationId: getAbnormalInfo
+    produces:
+      - application/json
+    parameters:
+      - in: query
+        name: id
+        required: true
+        type: integer
+        format: int32
+        description: 主键id
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/AbnormalInfoResponse'
+# 处理开发异常
+/abnormal/handleAbnormal:
+  post:
+    tags:
+      - '开发异常'
+    summary: 处理开发异常
+    operationId: handleAbnormal
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/HandleAbnormalRequest'
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/EmptyResponse'
+# 查询表名
+/mapping/getTableName:
+  get:
+    tags:
+      - '新增映射值'
+    summary: 查询表名
+    operationId: getTableName
+    produces:
+      - application/json
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/TableNameResponse'
+# 查询表字段名
+/mapping/getFieldName:
+  get:
+    tags:
+      - '新增映射值'
+    summary: 查询表字段名
+    operationId: getFieldName
+    produces:
+      - application/json
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/FieldNameResponse'
+# 查询映射关系
+/mapping/getRelation:
+  get:
+    tags:
+      - '新增映射值'
+    summary: 查询映射关系
+    operationId: getRelation
+    produces:
+      - application/json
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/RelationResponse'
+# 查询列表数据
+/mapping/getMappingList:
+  post:
+    tags:
+      - '新增映射值'
+    summary: 查询列表数据
+    operationId: getMappingList
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/MappingListRequest'
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/MappingListResponse'
+# 添加映射关系
+/mapping/addMapping:
+  post:
+    tags:
+      - '新增映射值'
+    summary: 添加映射关系
+    operationId: addMapping
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/AddMappingRequest'
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/EmptyResponse'
+# 查看历史映射
+/mapping/getHistoryMapping:
+  get:
+    tags:
+      - '新增映射值'
+    summary: 查看历史映射
+    operationId: getHistoryMapping
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: id
+        required: true
+        type: integer
+        format: int32
+        description: 数据id
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/HistoryMappingResponse'
+# 上传
+/mapping/upload:
+  get:
+    tags:
+      - '新增映射值'
+    summary: 上传
+    operationId: upload
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: idList
+        type: string
+        required: true
+        description: 数据id（示例:"1,2,3"）
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/EmptyResponse'
+# 退回
+/mapping/back:
+  get:
+    tags:
+      - '新增映射值'
+    summary: 退回
+    operationId: back
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: id
+        type: integer
+        format: int32
+        required: true
+        description: 数据id
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/EmptyResponse'
+# 定时任务-开发异常
+/task/updateAbnormal:
+  get:
+    tags:
+      - '定时任务'
+    summary: 更新开发异常数据
+    operationId: abnormal
+    produces:
+      - application/json
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/EmptyResponse'
+# 定时任务-新增映射值
+/task/updateMapping:
+  get:
+    tags:
+      - '定时任务'
+    summary: 更新映射值数据
+    operationId: mapping
+    produces:
+      - application/json
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/EmptyResponse'
 
 
 

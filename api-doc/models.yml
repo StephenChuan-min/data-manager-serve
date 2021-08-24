@@ -5,7 +5,6 @@ definitions:
       code:
         type: integer
         format: int32
-        default: 200
         description: 返回码,200为正常,详情参考http状态码
       data:
         type: object
@@ -15,6 +14,45 @@ definitions:
         description: 返回描述信息
     xml:
       name: EmptyResponse
+  UserResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        default: 200
+        description: 返回码,200为正常,详情参考http状态码
+      data:
+        $ref: '#/definitions/UserData'
+      message:
+        type: string
+        description: 返回描述信息
+    xml:
+      name: UserResponse
+  UserData:
+    type: object
+    properties:
+      list:
+        type: array
+        xml:
+          name: list
+          wrapped: true
+        items:
+          $ref: '#/definitions/UserDataItem'
+    xml:
+      name: UserData
+  UserDataItem:
+    type: object
+    properties:
+      id:
+        type: inetger
+        format: int32
+        description: id
+      name:
+        type: string
+        description: 姓名
+    xml:
+      name: UserDataItem
   CaptchaResponse:
     type: object
     properties:
@@ -110,6 +148,10 @@ definitions:
   AddAccountRequest:
     type: object
     properties:
+      role:
+        type: integer
+        format: int32
+        description:  角色（1-开发账号  2-测试账号）
       name:
         type: string
         description: 姓名
@@ -168,14 +210,571 @@ definitions:
         description: 待修改映射数
     xml:
       name: UserListData
+  AbnormalTypeResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        default: 200
+        description: 返回码,200为正常,详情参考http状态码
+      data:
+        $ref: '#/definitions/AbnormalType'
+      message:
+        type: string
+        description: 返回描述信息
+    xml:
+      name: UserListResponse
+  AbnormalType:
+    type: object
+    properties:
+      dataType:
+        type: array
+        xml:
+          name: dataType
+          wrapped: true
+        items:
+          $ref: '#/definitions/AbnormalTypeItem'
+    xml:
+      name: AbnormalType
+  AbnormalTypeItem:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: 数据类型id
+      typeName:
+        type: string
+        description: 数据类型名称
+    xml:
+      name: AbnormalTypeItem
+  AbnormalListRequest:
+    type: object
+    properties:
+      num:
+        type: integer
+        format: int32 
+        description: 每页条数，默认20 ,示例值(20)
+      page:
+        type: integer
+        format: int32 
+        description: 页数。1开始，默认1 ,示例值(1)
+      sortPublish:
+        type: string
+        description: 排序-发布时间（ASC、DESC）
+      sortFailed:
+        type: string
+        description: 排序-报错时间（ASC、DESC）
+      sortPriority:
+        type: string
+        description: 排序-优先级（ASC、DESC）
+      sortHandle:
+        type: string
+        description: 排序-处理时间（ASC、DESC）
+      handleStatus:
+        type: integer
+        format: int32
+        description: 处理状态(0-待处理 1-处理中 2-已处理)
+      dataType:
+        type: integer
+        format: int64
+        description: 数据类型id
+      sourceId:
+        type: integer
+        format: int64
+        description: source_id
+      sourceName:
+        type: string
+        description: 网站名称
+      priority:
+        type: integer
+        format: int64
+        description: 优先级（1-13）
+      failedType:
+        type: integer
+        format: int32
+        description: 错误类型（1-解析错误 2-抓取错误）
+      handler:
+        type: integer
+        format: int64
+        description: 处理人id
+      publishTimeStart:
+        type: string
+        format: date
+        description: 发布日期（开始日期），示例值(2021-01-01)
+      publishTimeEnd:
+        type: string
+        format: date
+        description: 发布日期（结束日期），示例值(2021-01-01)
+      failedTimeStart:
+        type: string
+        format: date
+        description: 报错日期（开始日期），示例值(2021-01-01)
+      failedTimeEnd:
+        type: string
+        format: date
+        description: 报错日期（结束日期），示例值(2021-01-01)
+      handleTimeStart:
+        type: string
+        format: date
+        description: 处理日期（开始日期），示例值(2021-01-01)
+      handleTimeEnd:
+        type: string
+        format: date
+        description: 处理日期（结束日期），示例值(2021-01-01)
+    xml:
+      name: AbnormalListRequest
+  AbnormalListResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: id
+      gmtPublish:
+        type: string
+        format: date
+        description: 发布日期，示例值(2021-01-01)
+      gmtFailed:
+        type: string
+        format: date
+        description: 报错日期，示例值(2021-01-01)
+      gmtHandle:
+        type: string
+        format: date
+        description: 处理日期，示例值(2021-01-01)
+      priority:
+        type: integer
+        format: int64
+        description: 优先级
+      sourceType:
+        type: string
+        description: 数据类型
+      failedType:
+        type: string
+        description: 错误类型
+      sourceId:
+        type: integer
+        format: int64
+        description: source_id
+      sourceName:
+        type: string
+        description: 网站名称
+      childCatalog:
+        type: string
+        description: 子目录
+      crawlerName:
+        type: string
+        description: 爬虫名称
+      handler:
+        type: string
+        description: 处理人
+    xml:
+      name: AbnormalListResponse
+  AbnormalInfoResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        default: 200
+        description: 返回码,200为正常,详情参考http状态码
+      data:
+        $ref: '#/definitions/AbnormalInfoData'
+      message:
+        type: string
+        description: 返回描述信息
+    xml:
+      name: AbnormalInfoResponse
+  AbnormalInfoData:
+    type: object
+    properties:
+      sourceId:
+        type: integer
+        format: int64
+        description: source_id
+      sourceName:
+        type: string
+        description: 网站名称
+      childCatalog:
+        type: string
+        description: 子目录  
+      crawlerName:
+        type: string
+        description: 爬虫名称
+      failedContent:
+        type: string
+        description: 报错内容
+      remarks:
+        type: string
+        description: 备注
+      failedHistory:
+        type: array
+        description: 报错历史
+        xml:
+          name: time
+          wrapped: true
+        items:
+          type: string
+          format: data
+      handleLog:
+        type: array
+        description: 处理记录
+        xml:
+          name: log
+          wrapper: true
+        items:
+          $ref: '#/definitions/HandleLog'
+    xml:
+      name: AbnormalInfoData
+  HandleLog:
+    type: object
+    properties:
+      handleTime:
+        type: string
+        format: data
+        description: 处理时间
+      handler:
+        type: string
+        description: 处理人
+      remarks:
+        type: string
+        description: 备注内容
+    xml:
+      name: HandleLog
+  HandleAbnormalRequest:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: id
+      handleStatus:
+        type: integer
+        format: int32
+        description: 处理状态（1-处理中 2-已处理）
+      remarks:
+        type: string
+        description: 备注
+    xml:
+      name: HandleAbnormalRequest
+  TableNameResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        default: 200
+        description: 返回码,200为正常,详情参考http状态码
+      data:
+        $ref: '#/definitions/TableNameData'
+      message:
+        type: string
+        description: 返回描述信息
+    xml:
+      name: TableNameResponse
+  TableNameData:
+    type: object
+    properties:
+      tableList:
+        type: array
+        description: 表名列表
+        xml:
+          name: tableName
+          wrapper: true
+        items:
+          $ref: '#/definitions/TableNameItem'
+  TableNameItem:
+    type: object
+    properties:
+      id:
+        type: string
+        description: id
+      tableName:
+        type: string
+        description: 表名
+    xml:
+      name: TableNameItem
+  FieldNameResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        default: 200
+        description: 返回码,200为正常,详情参考http状态码
+      data:
+        $ref: '#/definitions/FieldNameData'
+      message:
+        type: string
+        description: 返回描述信息
+    xml:
+      name: FieldNameResponse
+  FieldNameData:
+    type: object
+    properties:
+      fieldList:
+        type: array
+        description: 表名列表
+        xml:
+          name: FieldNameData
+          wrapper: true
+        items:
+          $ref: '#/definitions/FieldNameItem'
+  FieldNameItem:
+    type: object
+    properties:
+      id:
+        type: string
+        description: id
+      fieldName:
+        type: string
+        description: 表字段名
+    xml:
+      name: FieldNameItem
+  RelationResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        default: 200
+        description: 返回码,200为正常,详情参考http状态码
+      data:
+        $ref: '#/definitions/RelationData'
+      message:
+        type: string
+        description: 返回描述信息
+    xml:
+      name: RelationResponse
+  RelationData:
+    type: object
+    properties:
+      relationList:
+        type: array
+        description: 表名列表
+        xml:
+          name: RelationData
+          wrapper: true
+        items:
+          $ref: '#/definitions/RelationItem'
+  RelationItem:
+    type: object
+    properties:
+      result:
+        type: string
+        description: 映射结果
+      code:
+        type: integer
+        format: int64
+        description: 映射码值
+    xml:
+      name: RelationItem
+  MappingListRequest:
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+        description: 处理状态（1-待处理  2-已处理、待测试  3-已退回、待修改  4-已修改  5-已上传）
+      tableName:
+        type: string
+        description: 表名
+      fieldName:
+        type: string
+        description: 字段名
+      result:
+        type: string
+        description: 映射结果
+      code:
+        type: integer
+        format: int64
+        description: 映射码值
+      handlerId:
+        type: integer
+        format: int32
+        description: 处理人id
+      testId:
+        type: integer
+        format: int32
+        description: 测试人id
+      backTimeStart:
+        type: string
+        format: data
+        description: 退回时间-开始时间
+      backTimeEnd:
+        type: string
+        format: data
+        description: 退回时间-结束时间
+      handleTimeStart:
+        type: string
+        format: data
+        description: 处理时间-开始时间
+      handleTimeEnd:
+        type: string
+        format: data
+        description: 处理时间-结束时间
+      createTimeStart:
+        type: string
+        format: data
+        description: 发布时间-开始时间
+      createTimeEnd:
+        type: string
+        format: data
+        description: 发布时间-结束时间
+      updateTimeStart:
+        type: string
+        format: data
+        description: 更新时间-开始时间
+      updateTimeEnd:
+        type: string
+        format: data
+        description: 更新时间-结束时间
+      sortUpdate:
+        type: string
+        description: 排序-发布时间（ASC、DESC）
+      sortHandle:
+        type: string
+        description: 排序-发布时间（ASC、DESC）
+      sortBack:
+        type: string
+        description: 排序-发布时间（ASC、DESC）
+      sortUpload:
+        type: string
+        description: 排序-发布时间（ASC、DESC）
+  MappingListResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        default: 200
+        description: 返回码,200为正常,详情参考http状态码
+      data:
+        $ref: '#/definitions/MappingListData'
+      message:
+        type: string
+        description: 返回描述信息
+    xml:
+      name: MappingListResponse
+  MappingListData:
+    type: object
+    properties:
+      createTime:
+        type: string
+        format: data
+        description: 首次发布时间
+      modifiedTime:
+        type: string
+        format: data
+        description: 更新时间
+      handleTime:
+        type: string
+        format: data
+        description: 处理时间
+      backTime:
+        type: string
+        format: data
+        description: 退回时间
+      uploadTime:
+        type: string
+        format: data
+        description: 上传时间
+      tableName:
+        type: string
+        description: 表名
+      mapField:
+        type: string
+        description: 表字段名
+      fieldName:
+        type: string
+        description: 新增名称
+      resule:
+        type: string
+        description: 映射结果
+      code:
+        type: integer
+        format: int64
+        description: 映射码值
+      handler:
+        type: string
+        description: 处理人
+      tester:
+        type: string
+        description: 测试人员
+  AddMappingRequest:
+    type: object
+    properties:
+      result:
+        type: string
+        description: 映射名称
+      code:
+        type: integer
+        format: int64
+        description: 映射码值
+      tableName:
+        type: string
+        description: 表名
+      mapField:
+        type: string
+        description: 表字段名
+      fieldName:
+        type: string
+        description: 新增名称
+    xml:
+      name: AddMappingRequest
+  HistoryMappingResponse:
+    type: object
+    properties:
+      tableName:
+        type: string
+        description: 表名
+      mapField:
+        type: string
+        description: 字段名
+      list:
+        type: array
+        xml:
+          name: list
+          wrapped: true
+        items:
+          $ref: '#/definitions/HistoryMappingItem'
+  HistoryMappingItem:
+    type: object
+    properties:
+      primitive:
+        type: string
+        description: 原始值
+      result:
+        type: string
+        description: 映射结果
+      code:
+        type: integer
+        format: int64
+        description: 映射码值
+    xml:
+      name: HistoryMappingItem
 
-
-
-
-
-
-
-
+# 安全项（后续可加入）
+# securityDefinitions:
+#   OauthSecurity:
+#     description: New Oauth security system. Do not use MediaSecurity or LegacySecurity.
+#     type: oauth2
+#     flow: accessCode
+#     authorizationUrl: 'https://oauth.simple.api/authorization'
+#     tokenUrl: 'https://oauth.simple.api/token'
+#     scopes:
+#       admin: Admin scope
+#       user: User scope
+#   MediaSecurity:
+#     description: Specific media security for backward compatibility. Use OauthSecurity instead.
+#     type: apiKey
+#     in: query
+#     name: media-api-key
+#   LegacySecurity:
+#     description: Legacy security system for backward compatibility. Use OauthSecurity instead.
+#     type: basic
 
 
 
