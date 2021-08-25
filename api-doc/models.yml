@@ -76,6 +76,30 @@ definitions:
         description: 图片验证码（base64）
     xml:
       name: CaptchaData
+  PreLoginResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        default: 200
+        description: 返回码,200为正常,详情参考http状态码
+      data:
+        $ref: '#/definitions/PreLoginData'
+      message:
+        type: string
+        description: 返回描述信息
+    xml:
+      name: PreLoginResponse
+  PreLoginData:
+    type: object
+    properties:
+      needCode:
+        type: integer
+        format: int32
+        description: 是否需要图片验证码（0-否 1-是）
+    xml:
+      name: PreLoginData
   LoginRequest:
     type: object
     properties:
@@ -255,23 +279,17 @@ definitions:
       num:
         type: integer
         format: int32 
-        description: 每页条数，默认20 ,示例值(20)
+        description: 每页条数，默认10 ,示例值(10)
       page:
         type: integer
         format: int32 
         description: 页数。1开始，默认1 ,示例值(1)
-      sortPublish:
+      sortColumn:
         type: string
-        description: 排序-发布时间（ASC、DESC）
-      sortFailed:
+        description: 排序字段（PUBLISHTIME、FAILEDTIME、PRIORITYTIME、HANDLETIME）
+      sortOrder:
         type: string
-        description: 排序-报错时间（ASC、DESC）
-      sortPriority:
-        type: string
-        description: 排序-优先级（ASC、DESC）
-      sortHandle:
-        type: string
-        description: 排序-处理时间（ASC、DESC）
+        description: 排序顺序（ASC,DESC）
       handleStatus:
         type: integer
         format: int32
@@ -361,15 +379,25 @@ definitions:
       sourceName:
         type: string
         description: 网站名称
+      sourceUrl:
+        type: string
+        description: 网站链接
       childCatalog:
         type: string
         description: 子目录
+      catalogUrl:
+        type: string
+        description: 子目录链接
       crawlerName:
         type: string
         description: 爬虫名称
       handler:
         type: string
         description: 处理人
+      isHandlerDeleted:
+        type: integer
+        format: int32
+        description: 处理人是否已删除(0-未删除 1-已删除)
     xml:
       name: AbnormalListResponse
   AbnormalInfoResponse:
@@ -489,7 +517,8 @@ definitions:
     type: object
     properties:
       id:
-        type: string
+        type: integer
+        format: int32
         description: id
       tableName:
         type: string
@@ -526,7 +555,8 @@ definitions:
     type: object
     properties:
       id:
-        type: string
+        type: integer
+        format: int32
         description: id
       fieldName:
         type: string
@@ -631,18 +661,12 @@ definitions:
         type: string
         format: data
         description: 更新时间-结束时间
-      sortUpdate:
+      sortColumn:
         type: string
-        description: 排序-发布时间（ASC、DESC）
-      sortHandle:
+        description: 排序字段（UPDATETIME、HANDLETIME、BACKTIME、UPLOADTIME）
+      sortOrder:
         type: string
-        description: 排序-发布时间（ASC、DESC）
-      sortBack:
-        type: string
-        description: 排序-发布时间（ASC、DESC）
-      sortUpload:
-        type: string
-        description: 排序-发布时间（ASC、DESC）
+        description: 排序顺序（ASC,DESC）
   MappingListResponse:
     type: object
     properties:
@@ -700,9 +724,17 @@ definitions:
       handler:
         type: string
         description: 处理人
-      tester:
+      isHandlerDeleted:
         type: string
+        description: 处理人是否删除（0-未删除 1-已删除）
+      tester:
+        type: integer
+        format: int 32
         description: 测试人员
+      isTesterDeleted:
+        type: integer
+        format: int 32
+        description: 测试人员是否删除（0-未删除 1-已删除）
   AddMappingRequest:
     type: object
     properties:

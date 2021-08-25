@@ -8,10 +8,10 @@ const swaggerDeploy = swaggerJsDoc({
     openapi: '2.0.0',
     info: {
       description: '数据管理平台',
-      version: '1.0.0',
+      version: '2.0.0',
       title: '数据管理平台-接口文档',
       contact: {
-        name: 'async',
+        name: 'xupeng',
         email: '',
       },
       termsOfService: 'http://www.yczcjk.com/',

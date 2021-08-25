@@ -16,6 +16,24 @@
         description: 'success'
         schema:
           $ref: '#/definitions/CaptchaResponse'
+# 检查是否需要验证码
+/auth/preLogin:
+  get:
+    tags:
+      - '登录'
+    summary: 检查是否需要验证码
+    operationId: preLogin
+    parameters:
+      - in : query
+        name: phone
+        required: true
+        type: string
+        description: 手机号
+    responses:
+      200:
+        description: 'success'
+        schema:
+          $ref: '#/definitions/PreLoginResponse'
 # 登录
 /auth/login:
   post:
@@ -104,6 +122,8 @@
         description: 'success'
         schema:
           $ref: '#/definitions/EmptyResponse'
+      5005:
+        description: '账号已存在'
 # 删除账号
 /admin/deleteAccount:
   post:
@@ -165,7 +185,7 @@
         required: true
         type: integer
         format: int32
-        description: 每页条数，默认20 ,示例值(20)
+        description: 每页条数，默认10 ,示例值(10)
       - in: query
         name: page
         required: true
@@ -193,6 +213,12 @@
         type: integer
         format: int32
         description: 权限
+      - in: query
+        name: isDeleted
+        required: false
+        type: integer
+        format: int32
+        description: 是否包含已删除账号（0-不包含 1-包含）
     responses:
       200:
         description: 'success'
