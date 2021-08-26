@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 const index = require('./routes');
-const tools = require('./tools');
+const tools = require('./tools/plugin/send');
 
 const routerPathHandle = require('./tools/plugin/routerPath');
 

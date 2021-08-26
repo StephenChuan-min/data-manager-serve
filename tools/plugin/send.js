@@ -1,4 +1,4 @@
-const status = require('./dataSource/statusCode');
+const status = require('../dataSource/statusCode');
 
 const { getStatusCode: getDesc, successCode, errorCode } = status;
 

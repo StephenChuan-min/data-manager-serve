@@ -2,7 +2,7 @@ const language = 'chn'; // chn / env
 const successCode = 200;
 const errorCode = 500;
 const statusCode = {
-  [successCode]: { message: '成功', desc: 'Success' },
+  [successCode]: { message: '请求成功', desc: 'Success' },
   [errorCode]: { message: '未知错误', desc: 'Unknown error' },
   2: { message: '服务暂不可用', desc: 'Service temporarily unavailable' },
   3: { message: '未知的方法', desc: 'Unsupported openapi method' },

@@ -95,9 +95,8 @@ definitions:
     type: object
     properties:
       needCode:
-        type: integer
-        format: int32
-        description: 是否需要图片验证码（0-否 1-是）
+        type: boolean
+        description: 是否需要图片验证码（是-true 否-false）
     xml:
       name: PreLoginData
   LoginRequest:
