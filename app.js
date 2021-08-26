@@ -10,18 +10,7 @@ const app = express();
 const index = require('./routes');
 const tools = require('./tools');
 
-const routerPathHandle = require('./tools/routerPath');
-
-// const swagger = require('./swagger.config');
-// // view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
-
-// uncomment after placing your favicon in /public
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-
-// api-docs【swagger】
-// app.use('/api-docs', swagger.serve, swagger.setup);
+const routerPathHandle = require('./tools/plugin/routerPath');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

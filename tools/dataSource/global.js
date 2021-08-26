@@ -1,7 +1,7 @@
 // 本地全局变量
 // 将设置为不可删除、只读
 
-const mysql = require("../mysql");
+const mysql = require("../plugin/mysql");
 
 global.tokeninfo = {};
 global.info = [];

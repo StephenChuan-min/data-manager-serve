@@ -5,7 +5,7 @@
   "scripts": {
     "test": "node-dev ./bin/www --notify=false",
     "start": "pm2 start ./bin/www --name nServer --watch",
-    "api": "node ./plug-in/swagger"
+    "api": "node ./bin/swagger"
   },
   "dependencies": {
     "body-parser": "~1.19.0",

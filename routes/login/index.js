@@ -1,10 +1,10 @@
 const express = require('express');
 
 const router = express.Router();
-const MYSQL = require('../../tools/mysql');
-const handler = require('../../tools/pulgin/cryhandler');
+const MYSQL = require('../../tools/plugin/mysql');
+const handler = require('../../tools/plugin/cryhandler');
 
-const redisMethod = require('../../tools/pulgin/redis');
+const redisMethod = require('../../tools/plugin/redis');
 
 router.post('*', (req, res, next) => {
   next();
