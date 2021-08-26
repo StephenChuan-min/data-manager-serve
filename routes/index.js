@@ -6,7 +6,7 @@ const login = require('./login');
 const redis = require('./redis');
 const article = require('./article');
 
-router.use('/login', login);
+router.use('/auth', login);          //登录模块
 router.use('*', redis);
 router.use('/article', article);
 

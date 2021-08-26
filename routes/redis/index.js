@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 // var mysql = require('../method/mysql');
-const redisMethod = require('./method');
+const redisMethod = require('../../tools/pulgin/redis');
 const globalPara = require('../../tools/dataSource/global');
 
 /* redis 公共模块 baseUrl 校验 */
