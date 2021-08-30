@@ -2,11 +2,11 @@ version: '3'
 services:
   node_serve:
     image: node:14.17.5
-    container_name: node-data-manager
+    container_name: node-data-manager-dev
     ports:
       - 38540:3000
     volumes:
-      - /Users/y.async/Documents/Workspace/Tsui_/NodeServer:/usr/src/app
+      - /disk/web/front/serve/node-data-management/dev:/usr/src/app
     working_dir: /usr/src/app
     tty: true
     command: npm test
