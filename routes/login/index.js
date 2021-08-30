@@ -4,7 +4,8 @@ const router = express.Router();
 const MYSQL = require('../../tools/plugin/mysql');
 const handler = require('../../tools/plugin/cryhandler');
 const redisMethod = require('../../tools/plugin/redis');
-const { checkMobile, getIcode } = require('../../tools/plugin/index');
+const { checkMobile } = require('../../tools/plugin/index');
+const { generateIcode } = require('../../tools/plugin/generate');
 const { CaptchaPrefix, PreLoginPrefix } = require('../../tools/dataSource/redisKey');
 
 // 获取图片验证码
@@ -14,7 +15,7 @@ router.get('/getCaptcha', (req, res) => {
   if (phone === '')  return res.errorText("手机号不能为空", 400);
   if (!checkMobile(phone))  return res.errorText("手机号格式错误", 400);
 
-  const { number, captcha } = getIcode();
+  const { number, captcha } = generateIcode();
   const captchaKey = CaptchaPrefix + phone;
   redisMethod.set(captchaKey, number);
   res.success({ captcha })
