@@ -1,7 +1,7 @@
 const mysql = require('mysql');
-const sqlJoin = require('./pulgin/sqljoin');
-const dataParse = require('./pulgin/dataformt');
-const config = require('../serverconfig');
+const sqlJoin = require('./sqljoin');
+const dataParse = require('./dataformt');
+const config = require('../../serverconfig');
 
 const pool = mysql.createPool(config.MYSQLCONFIG);
 

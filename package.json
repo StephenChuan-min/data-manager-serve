@@ -5,7 +5,7 @@
   "scripts": {
     "test": "node-dev ./bin/www --notify=false",
     "start": "pm2 start ./bin/www --name nServer --watch",
-    "api": "node ./plug-in/swagger"
+    "api": "node ./bin/swagger"
   },
   "dependencies": {
     "body-parser": "~1.19.0",
@@ -13,9 +13,12 @@
     "crypto": "^1.0.1",
     "debug": "~4.3.2",
     "express": "~4.16.3",
+    "express-jwt": "^6.1.0",
     "jsencrypt": "^3.0.0-rc.1",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "~1.10.0",
     "mysql": "^2.16.0",
+    "pnglib": "^0.0.1",
     "redis": "^3.1.2",
     "serve-favicon": "~2.5.0",
     "swagger-jsdoc": "^6.1.0",

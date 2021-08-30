@@ -21,8 +21,8 @@ const encryption = function (secret, salt) {
   return crypto.createHmac('sha256', secret).update(salt).digest('hex');
 };
 
-const encryptMD5 = function () {
-  const content = this.randomString(5);
+const encryptMD5 = function (value) {
+  const content = value || this.randomString(5);
   return crypto.createHash('md5').update(content).digest('hex');
 };
 // 模块导出
