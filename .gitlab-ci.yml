@@ -1,9 +1,20 @@
 stages:
+  - install
   - deploy
 
 cache:
   paths:
     - node_modules/
+
+install_step:
+  stage: install
+  tags:
+    - font-group-runner-8
+  only:
+    - develop
+  script:
+    - npm config set registry http://172.18.255.8:8060/repository/npm-group/
+    - npm install
 
 deploy_step:
   stage: deploy
@@ -18,5 +29,6 @@ deploy_step:
     - chmod 700 ~/.ssh
     - ssh-keyscan $DEPLOY_SERVER_8 >> ~/.ssh/know_hosts
     - chmod 644 ~/.ssh/know_hosts
-    #    - ssh -o StrictHostKeyChecking=no -p 22 work@$DEPLOY_SERVER_8 "cd $DEPLOY_RESOURCE_PATH; chmod +x $DEPLOY_SHELL; ./$DEPLOY_SHELL_8; exit"
-    - scp -o StrictHostKeyChecking=no -r -P 22 ./* work@172.18.255.8:/disk/web/front/serve/node-data-management/dev
+    - ssh -o StrictHostKeyChecking=no -p 22 work@$DEPLOY_SERVER_8
+      "cd /disk/web/front/serve/node-data-management; chmod +x clear-dev.sh; ./clear-dev.sh; exit"
+    - scp -o StrictHostKeyChecking=no -r -P 22 ./* work@$DEPLOY_SERVER_8:/disk/web/front/serve/node-data-management/dev

@@ -9,6 +9,7 @@ services:
       - /disk/web/front/serve/node-data-management/dev:/usr/src/app
     working_dir: /usr/src/app
     tty: true
+    build:
     command: npm test
 
 networks:
